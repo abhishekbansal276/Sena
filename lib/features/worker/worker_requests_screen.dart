@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/models/models.dart';
@@ -13,13 +12,17 @@ class WorkerRequestsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final worker = context.watch<AuthProvider>().currentWorker;
-    if (worker == null) return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    final requests = context.watch<RequestProvider>().requestsForWorker(worker.id);
+    if (worker == null)
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    final requests =
+        context.watch<RequestProvider>().requestsForWorker(worker.id);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Hiring Requests')),
       body: requests.isEmpty
-          ? const EmptyState(message: 'No hiring requests received yet', icon: Icons.inbox_outlined)
+          ? const EmptyState(
+              message: 'No hiring requests received yet',
+              icon: Icons.inbox_outlined)
           : ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: requests.length,
@@ -42,9 +45,17 @@ class _WorkerRequestCard extends StatelessWidget {
     Color statusColor;
     String statusLabel;
     switch (request.status) {
-      case RequestStatus.accepted: statusColor = AppTheme.success; statusLabel = 'Accepted'; break;
-      case RequestStatus.rejected: statusColor = AppTheme.error; statusLabel = 'Rejected'; break;
-      default: statusColor = AppTheme.warning; statusLabel = 'Pending';
+      case RequestStatus.accepted:
+        statusColor = AppTheme.success;
+        statusLabel = 'Accepted';
+        break;
+      case RequestStatus.rejected:
+        statusColor = AppTheme.error;
+        statusLabel = 'Rejected';
+        break;
+      default:
+        statusColor = AppTheme.warning;
+        statusLabel = 'Pending';
     }
 
     return Card(
@@ -53,10 +64,14 @@ class _WorkerRequestCard extends StatelessWidget {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
             Expanded(
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(request.companyName, style: Theme.of(context).textTheme.headlineMedium),
-                Text(request.skillRequired, style: Theme.of(context).textTheme.bodyMedium),
-              ]),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(request.companyName,
+                        style: Theme.of(context).textTheme.headlineMedium),
+                    Text(request.skillRequired,
+                        style: Theme.of(context).textTheme.bodyMedium),
+                  ]),
             ),
             StatusChip(label: statusLabel, color: statusColor),
           ]),
@@ -68,7 +83,8 @@ class _WorkerRequestCard extends StatelessWidget {
           ]),
           if (request.additionalRequirements != null) ...[
             const SizedBox(height: 8),
-            Text('Note: ${request.additionalRequirements}', style: Theme.of(context).textTheme.bodyMedium),
+            Text('Note: ${request.additionalRequirements}',
+                style: Theme.of(context).textTheme.bodyMedium),
           ],
           if (isPending) ...[
             const SizedBox(height: 14),
@@ -79,9 +95,11 @@ class _WorkerRequestCard extends StatelessWidget {
                   style: AppButtonStyle.accent,
                   icon: Icons.check_rounded,
                   onTap: () {
-                    reqProv.updateRequestStatus(request.id, RequestStatus.accepted);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('✅ Accepted! Company has been notified.'), backgroundColor: AppTheme.success));
+                    reqProv.updateRequestStatus(
+                        request.id, RequestStatus.accepted);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('✅ Accepted! Company has been notified.'),
+                        backgroundColor: AppTheme.success));
                   },
                 ),
               ),
@@ -92,9 +110,11 @@ class _WorkerRequestCard extends StatelessWidget {
                   style: AppButtonStyle.danger,
                   icon: Icons.close_rounded,
                   onTap: () {
-                    reqProv.updateRequestStatus(request.id, RequestStatus.rejected);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Request rejected.'), backgroundColor: AppTheme.error));
+                    reqProv.updateRequestStatus(
+                        request.id, RequestStatus.rejected);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Request rejected.'),
+                        backgroundColor: AppTheme.error));
                   },
                 ),
               ),

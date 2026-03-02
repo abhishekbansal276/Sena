@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import '../models/models.dart';
 
 /// Mock seed data for all entities
@@ -200,9 +199,26 @@ class MockData {
     AppNotification(
       id: 'n3',
       title: 'New Hiring Request',
-      message: 'QuickFix Solutions wants 3 Plumbers from Singh Labour Suppliers.',
+      message:
+          'QuickFix Solutions wants 3 Plumbers from Singh Labour Suppliers.',
       time: DateTime(2026, 2, 25, 9, 0),
       isRead: true,
     ),
   ];
+
+  /// Demo login credentials displayed on the Home screen
+  static const Map<String, Map<String, String>> demoCreds = {
+    'Company': {
+      'email': 'hr@buildright.in',
+      'password': 'demo1234',
+    },
+    'Contractor': {
+      'email': 'ramesh.gupta@example.com',
+      'password': 'demo1234',
+    },
+    'Worker': {
+      'email': 'raju.sharma@example.com',
+      'password': 'demo1234',
+    },
+  };
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '../../core/theme/app_theme.dart';
 import '../../core/models/models.dart';
 import '../../core/providers/auth_provider.dart';
 import '../../shared/widgets/app_widgets.dart';
@@ -10,10 +9,12 @@ class ContractorRegistrationScreen extends StatefulWidget {
   const ContractorRegistrationScreen({super.key});
 
   @override
-  State<ContractorRegistrationScreen> createState() => _ContractorRegistrationScreenState();
+  State<ContractorRegistrationScreen> createState() =>
+      _ContractorRegistrationScreenState();
 }
 
-class _ContractorRegistrationScreenState extends State<ContractorRegistrationScreen> {
+class _ContractorRegistrationScreenState
+    extends State<ContractorRegistrationScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameCtrl = TextEditingController();
   final _ageCtrl = TextEditingController();
@@ -66,7 +67,8 @@ class _ContractorRegistrationScreenState extends State<ContractorRegistrationScr
               label: 'Aadhaar Card Number',
               controller: _aadhaarCtrl,
               keyboardType: TextInputType.number,
-              validator: (v) => v == null || v.length < 12 ? 'Enter valid Aadhaar' : null,
+              validator: (v) =>
+                  v == null || v.length < 12 ? 'Enter valid Aadhaar' : null,
             ),
             const SizedBox(height: 20),
             _section('Business Details'),
@@ -82,7 +84,8 @@ class _ContractorRegistrationScreenState extends State<ContractorRegistrationScr
               controller: _phoneCtrl,
               keyboardType: TextInputType.phone,
               prefixIcon: const Icon(Icons.phone_outlined),
-              validator: (v) => v == null || v.length < 10 ? 'Enter valid phone' : null,
+              validator: (v) =>
+                  v == null || v.length < 10 ? 'Enter valid phone' : null,
             ),
             const SizedBox(height: 12),
             AppTextField(
@@ -99,7 +102,8 @@ class _ContractorRegistrationScreenState extends State<ContractorRegistrationScr
                   child: AppTextField(
                     label: 'City',
                     controller: _cityCtrl,
-                    validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+                    validator: (v) =>
+                        v == null || v.isEmpty ? 'Required' : null,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -107,7 +111,8 @@ class _ContractorRegistrationScreenState extends State<ContractorRegistrationScr
                   child: AppTextField(
                     label: 'State',
                     controller: _stateCtrl,
-                    validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+                    validator: (v) =>
+                        v == null || v.isEmpty ? 'Required' : null,
                   ),
                 ),
               ],
@@ -136,8 +141,11 @@ class _ContractorRegistrationScreenState extends State<ContractorRegistrationScr
   }
 
   Widget _section(String title) => Padding(
-    padding: const EdgeInsets.only(bottom: 12),
-    child: Text(title,
-        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Color(0xFF8B5CF6))),
-  );
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Text(title,
+            style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF8B5CF6))),
+      );
 }

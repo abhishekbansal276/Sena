@@ -17,11 +17,14 @@ class CompanyDashboardScreen extends StatelessWidget {
     final auth = context.watch<AuthProvider>();
     final reqProv = context.watch<RequestProvider>();
     final company = auth.currentCompany;
-    if (company == null) return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    if (company == null)
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
 
     final myRequests = reqProv.requestsForCompany(company.id);
-    final pending = myRequests.where((r) => r.status == RequestStatus.pending).length;
-    final accepted = myRequests.where((r) => r.status == RequestStatus.accepted).length;
+    final pending =
+        myRequests.where((r) => r.status == RequestStatus.pending).length;
+    final accepted =
+        myRequests.where((r) => r.status == RequestStatus.accepted).length;
     final unread = MockData.notifications.where((n) => !n.isRead).length;
 
     return Scaffold(
@@ -41,31 +44,69 @@ class CompanyDashboardScreen extends StatelessWidget {
               delegate: SliverChildListDelegate([
                 // Stats row
                 Row(children: [
-                  Expanded(child: StatCard(label: 'Sent Requests', value: '${myRequests.length}', icon: Icons.send_rounded, color: AppTheme.primary)),
+                  Expanded(
+                      child: StatCard(
+                          label: 'Sent Requests',
+                          value: '${myRequests.length}',
+                          icon: Icons.send_rounded,
+                          color: AppTheme.primary)),
                   const SizedBox(width: 12),
-                  Expanded(child: StatCard(label: 'Pending', value: '$pending', icon: Icons.hourglass_top_rounded, color: AppTheme.warning)),
+                  Expanded(
+                      child: StatCard(
+                          label: 'Pending',
+                          value: '$pending',
+                          icon: Icons.hourglass_top_rounded,
+                          color: AppTheme.warning)),
                   const SizedBox(width: 12),
-                  Expanded(child: StatCard(label: 'Accepted', value: '$accepted', icon: Icons.check_circle_outline, color: AppTheme.success)),
+                  Expanded(
+                      child: StatCard(
+                          label: 'Accepted',
+                          value: '$accepted',
+                          icon: Icons.check_circle_outline,
+                          color: AppTheme.success)),
                 ]),
                 const SizedBox(height: 28),
                 // Quick actions
-                SectionHeader(title: 'Quick Actions'),
+                const SectionHeader(title: 'Quick Actions'),
                 const SizedBox(height: 12),
                 Row(children: [
-                  Expanded(child: _QuickActionCard(icon: Icons.search_rounded, label: 'Browse Workers', color: AppTheme.primary, onTap: () => context.go('/company/browse'))),
+                  Expanded(
+                      child: _QuickActionCard(
+                          icon: Icons.search_rounded,
+                          label: 'Browse Workers',
+                          color: AppTheme.primary,
+                          onTap: () => context.go('/company/browse'))),
                   const SizedBox(width: 12),
-                  Expanded(child: _QuickActionCard(icon: Icons.add_circle_outline_rounded, label: 'New Request', color: AppTheme.success, onTap: () => context.go('/company/create-request'))),
+                  Expanded(
+                      child: _QuickActionCard(
+                          icon: Icons.add_circle_outline_rounded,
+                          label: 'New Request',
+                          color: AppTheme.success,
+                          onTap: () => context.go('/company/create-request'))),
                   const SizedBox(width: 12),
-                  Expanded(child: _QuickActionCard(icon: Icons.history_rounded, label: 'My Requests', color: AppTheme.warning, onTap: () => context.go('/company/sent-requests'))),
+                  Expanded(
+                      child: _QuickActionCard(
+                          icon: Icons.history_rounded,
+                          label: 'My Requests',
+                          color: AppTheme.warning,
+                          onTap: () => context.go('/company/sent-requests'))),
                 ]),
                 const SizedBox(height: 28),
                 // Recent requests
-                SectionHeader(title: 'Recent Requests', action: 'See All', onAction: () => context.go('/company/sent-requests')),
+                SectionHeader(
+                    title: 'Recent Requests',
+                    action: 'See All',
+                    onAction: () => context.go('/company/sent-requests')),
                 const SizedBox(height: 8),
                 if (myRequests.isEmpty)
-                  const EmptyState(message: 'No hiring requests yet.\nTap "New Request" to get started.', icon: Icons.work_off_outlined)
+                  const EmptyState(
+                      message:
+                          'No hiring requests yet.\nTap "New Request" to get started.',
+                      icon: Icons.work_off_outlined)
                 else
-                  ...myRequests.take(3).map((r) => _RequestSummaryCard(request: r)),
+                  ...myRequests
+                      .take(3)
+                      .map((r) => _RequestSummaryCard(request: r)),
                 const SizedBox(height: 24),
                 // Logout
                 AppButton(
@@ -96,7 +137,11 @@ class _QuickActionCard extends StatelessWidget {
   final String label;
   final Color color;
   final VoidCallback onTap;
-  const _QuickActionCard({required this.icon, required this.label, required this.color, required this.onTap});
+  const _QuickActionCard(
+      {required this.icon,
+      required this.label,
+      required this.color,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -113,8 +158,10 @@ class _QuickActionCard extends StatelessWidget {
         child: Column(children: [
           Icon(icon, color: color, size: 28),
           const SizedBox(height: 8),
-          Text(label, textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: color)),
+          Text(label,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 11, fontWeight: FontWeight.w600, color: color)),
         ]),
       ),
     );
@@ -130,9 +177,17 @@ class _RequestSummaryCard extends StatelessWidget {
     Color statusColor;
     String statusLabel;
     switch (request.status) {
-      case RequestStatus.accepted: statusColor = AppTheme.success; statusLabel = 'Accepted'; break;
-      case RequestStatus.rejected: statusColor = AppTheme.error; statusLabel = 'Rejected'; break;
-      default: statusColor = AppTheme.warning; statusLabel = 'Pending';
+      case RequestStatus.accepted:
+        statusColor = AppTheme.success;
+        statusLabel = 'Accepted';
+        break;
+      case RequestStatus.rejected:
+        statusColor = AppTheme.error;
+        statusLabel = 'Rejected';
+        break;
+      default:
+        statusColor = AppTheme.warning;
+        statusLabel = 'Pending';
     }
 
     return Card(
@@ -142,15 +197,21 @@ class _RequestSummaryCard extends StatelessWidget {
         child: Row(children: [
           Container(
             padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(color: AppTheme.primary.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
-            child: const Icon(Icons.work_outline, color: AppTheme.primary, size: 22),
+            decoration: BoxDecoration(
+                color: AppTheme.primary.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(10)),
+            child: const Icon(Icons.work_outline,
+                color: AppTheme.primary, size: 22),
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(request.skillRequired, style: Theme.of(context).textTheme.headlineSmall),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(request.skillRequired,
+                  style: Theme.of(context).textTheme.headlineSmall),
               const SizedBox(height: 2),
-              Text('${request.workersRequired} worker(s) • ${DateFormat('d MMM y').format(request.startDate)}',
+              Text(
+                  '${request.workersRequired} worker(s) • ${DateFormat('d MMM y').format(request.startDate)}',
                   style: Theme.of(context).textTheme.bodyMedium),
             ]),
           ),

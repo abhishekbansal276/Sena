@@ -9,7 +9,8 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _ctrl;
   late Animation<double> _fadeAnim;
   late Animation<double> _scaleAnim;
@@ -17,7 +18,8 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   @override
   void initState() {
     super.initState();
-    _ctrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 1200));
+    _ctrl = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1200));
     _fadeAnim = CurvedAnimation(parent: _ctrl, curve: Curves.easeIn);
     _scaleAnim = Tween<double>(begin: 0.7, end: 1.0).animate(
       CurvedAnimation(parent: _ctrl, curve: Curves.elasticOut),
@@ -25,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     _ctrl.forward();
 
     Future.delayed(const Duration(milliseconds: 2400), () {
-      if (mounted) context.go('/role-select');
+      if (mounted) context.go('/home');
     });
   }
 
@@ -41,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [AppTheme.primary, Color(0xFF0D0D3A)],
+            colors: [AppTheme.primary, Color(0xFF3A1400)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -68,7 +70,8 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                         )
                       ],
                     ),
-                    child: const Icon(Icons.handshake_rounded, color: Colors.white, size: 54),
+                    child: const Icon(Icons.handshake_rounded,
+                        color: Colors.white, size: 54),
                   ),
                   const SizedBox(height: 24),
                   const Text(

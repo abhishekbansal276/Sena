@@ -13,7 +13,8 @@ class CreateHiringRequestScreen extends StatefulWidget {
   const CreateHiringRequestScreen({super.key});
 
   @override
-  State<CreateHiringRequestScreen> createState() => _CreateHiringRequestScreenState();
+  State<CreateHiringRequestScreen> createState() =>
+      _CreateHiringRequestScreenState();
 }
 
 class _CreateHiringRequestScreenState extends State<CreateHiringRequestScreen> {
@@ -31,8 +32,16 @@ class _CreateHiringRequestScreenState extends State<CreateHiringRequestScreen> {
   bool _loading = false;
 
   static const _skills = [
-    'Mason', 'Electrician', 'Plumber', 'Painter', 'Carpenter',
-    'Helper', 'Welder', 'Housekeeping', 'Loading/Unloading', 'Gardener',
+    'Mason',
+    'Electrician',
+    'Plumber',
+    'Painter',
+    'Carpenter',
+    'Helper',
+    'Welder',
+    'Housekeeping',
+    'Loading/Unloading',
+    'Gardener',
   ];
 
   void _pickDate() async {
@@ -65,7 +74,8 @@ class _CreateHiringRequestScreenState extends State<CreateHiringRequestScreen> {
       duration: _duration,
       workLocation: _locationCtrl.text,
       startDate: _startDate,
-      additionalRequirements: _notesCtrl.text.isNotEmpty ? _notesCtrl.text : null,
+      additionalRequirements:
+          _notesCtrl.text.isNotEmpty ? _notesCtrl.text : null,
       createdAt: DateTime.now(),
     );
 
@@ -90,38 +100,54 @@ class _CreateHiringRequestScreenState extends State<CreateHiringRequestScreen> {
         child: ListView(
           padding: const EdgeInsets.all(20),
           children: [
-            _Section('Hire From'),
+            const _Section('Hire From'),
             DropdownButtonFormField<String>(
               hint: const Text('Select Contractor (optional)'),
-              value: _targetContractorId,
-              decoration: const InputDecoration(prefixIcon: Icon(Icons.supervisor_account_outlined)),
+              initialValue: _targetContractorId,
+              decoration: const InputDecoration(
+                  prefixIcon: Icon(Icons.supervisor_account_outlined)),
               items: [
-                const DropdownMenuItem(value: null, child: Text('Individual Worker')),
-                ...MockData.contractors.map((c) => DropdownMenuItem(value: c.id, child: Text(c.businessName ?? c.fullName))),
+                const DropdownMenuItem(
+                    value: null, child: Text('Individual Worker')),
+                ...MockData.contractors.map((c) => DropdownMenuItem(
+                    value: c.id, child: Text(c.businessName ?? c.fullName))),
               ],
-              onChanged: (v) => setState(() { _targetContractorId = v; _targetWorkerId = null; }),
+              onChanged: (v) => setState(() {
+                _targetContractorId = v;
+                _targetWorkerId = null;
+              }),
             ),
             if (_targetContractorId == null) ...[
               const SizedBox(height: 12),
               DropdownButtonFormField<String>(
                 hint: const Text('Select Worker (optional)'),
-                value: _targetWorkerId,
-                decoration: const InputDecoration(prefixIcon: Icon(Icons.engineering_outlined)),
+                initialValue: _targetWorkerId,
+                decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.engineering_outlined)),
                 items: [
-                  const DropdownMenuItem(value: null, child: Text('Any available worker')),
-                  ...MockData.workers.where((w) => w.contractorId == null).map((w) => DropdownMenuItem(value: w.id, child: Text(w.fullName))),
+                  const DropdownMenuItem(
+                      value: null, child: Text('Any available worker')),
+                  ...MockData.workers.where((w) => w.contractorId == null).map(
+                      (w) => DropdownMenuItem(
+                          value: w.id, child: Text(w.fullName))),
                 ],
                 onChanged: (v) => setState(() => _targetWorkerId = v),
               ),
             ],
             const SizedBox(height: 20),
-            _Section('Job Details'),
+            const _Section('Job Details'),
             DropdownButtonFormField<String>(
               hint: const Text('Select Skill Required'),
-              decoration: const InputDecoration(prefixIcon: Icon(Icons.construction_outlined)),
-              items: _skills.map((s) => DropdownMenuItem(value: s, child: Text(s))).toList(),
-              onChanged: (v) { if (v != null) _skillCtrl.text = v; },
-              validator: (_) => _skillCtrl.text.isEmpty ? 'Select a skill' : null,
+              decoration: const InputDecoration(
+                  prefixIcon: Icon(Icons.construction_outlined)),
+              items: _skills
+                  .map((s) => DropdownMenuItem(value: s, child: Text(s)))
+                  .toList(),
+              onChanged: (v) {
+                if (v != null) _skillCtrl.text = v;
+              },
+              validator: (_) =>
+                  _skillCtrl.text.isEmpty ? 'Select a skill' : null,
             ),
             const SizedBox(height: 12),
             AppTextField(
@@ -139,16 +165,29 @@ class _CreateHiringRequestScreenState extends State<CreateHiringRequestScreen> {
               validator: (v) => v == null || v.isEmpty ? 'Required' : null,
             ),
             const SizedBox(height: 20),
-            _Section('Wages & Duration'),
+            const _Section('Wages & Duration'),
             Row(children: [
-              Expanded(child: AppTextField(label: 'Standard Wage (₹/day)', controller: _stdWageCtrl, keyboardType: TextInputType.number, validator: (v) => v == null || v.isEmpty ? 'Required' : null)),
+              Expanded(
+                  child: AppTextField(
+                      label: 'Standard Wage (₹/day)',
+                      controller: _stdWageCtrl,
+                      keyboardType: TextInputType.number,
+                      validator: (v) =>
+                          v == null || v.isEmpty ? 'Required' : null)),
               const SizedBox(width: 12),
-              Expanded(child: AppTextField(label: 'Offered Wage (₹/day)', controller: _offWageCtrl, keyboardType: TextInputType.number, validator: (v) => v == null || v.isEmpty ? 'Required' : null)),
+              Expanded(
+                  child: AppTextField(
+                      label: 'Offered Wage (₹/day)',
+                      controller: _offWageCtrl,
+                      keyboardType: TextInputType.number,
+                      validator: (v) =>
+                          v == null || v.isEmpty ? 'Required' : null)),
             ]),
             const SizedBox(height: 12),
             Text('Duration', style: Theme.of(context).textTheme.labelLarge),
             const SizedBox(height: 8),
-            Row(children: WorkDuration.values.map((d) {
+            Row(
+                children: WorkDuration.values.map((d) {
               final selected = _duration == d;
               return Expanded(
                 child: Padding(
@@ -157,7 +196,8 @@ class _CreateHiringRequestScreenState extends State<CreateHiringRequestScreen> {
                     onPressed: () => setState(() => _duration = d),
                     style: OutlinedButton.styleFrom(
                       backgroundColor: selected ? AppTheme.primary : null,
-                      foregroundColor: selected ? Colors.white : AppTheme.primary,
+                      foregroundColor:
+                          selected ? Colors.white : AppTheme.primary,
                     ),
                     child: Text(d.name.capitalize()),
                   ),
@@ -182,7 +222,11 @@ class _CreateHiringRequestScreenState extends State<CreateHiringRequestScreen> {
               maxLines: 3,
             ),
             const SizedBox(height: 28),
-            AppButton(label: 'Send Hiring Request', icon: Icons.send_rounded, onTap: _submit, isLoading: _loading),
+            AppButton(
+                label: 'Send Hiring Request',
+                icon: Icons.send_rounded,
+                onTap: _submit,
+                isLoading: _loading),
           ],
         ),
       ),
@@ -195,11 +239,16 @@ class _Section extends StatelessWidget {
   const _Section(this.title);
   @override
   Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.only(bottom: 12),
-    child: Text(title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: AppTheme.primary)),
-  );
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Text(title,
+            style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                color: AppTheme.primary)),
+      );
 }
 
 extension StringExt on String {
-  String capitalize() => isEmpty ? this : '${this[0].toUpperCase()}${substring(1)}';
+  String capitalize() =>
+      isEmpty ? this : '${this[0].toUpperCase()}${substring(1)}';
 }

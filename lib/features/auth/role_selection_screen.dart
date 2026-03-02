@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import '../../core/theme/app_theme.dart';
-import '../../core/models/models.dart';
-import '../../core/providers/auth_provider.dart';
 
 class RoleSelectionScreen extends StatelessWidget {
   const RoleSelectionScreen({super.key});
@@ -18,13 +15,19 @@ class RoleSelectionScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 24),
-              const Text('Welcome to', style: TextStyle(fontSize: 18, color: AppTheme.textSecondary)),
+              const Text('Welcome to',
+                  style:
+                      TextStyle(fontSize: 18, color: AppTheme.textSecondary)),
               const Text('SENA',
                   style: TextStyle(
-                      fontSize: 42, fontWeight: FontWeight.w900, color: AppTheme.primary, letterSpacing: 4)),
+                      fontSize: 42,
+                      fontWeight: FontWeight.w900,
+                      color: AppTheme.primary,
+                      letterSpacing: 4)),
               const SizedBox(height: 8),
               const Text('Choose how you want to continue',
-                  style: TextStyle(color: AppTheme.textSecondary, fontSize: 15)),
+                  style:
+                      TextStyle(color: AppTheme.textSecondary, fontSize: 15)),
               const SizedBox(height: 40),
               _RoleCard(
                 icon: Icons.engineering_rounded,
@@ -90,7 +93,10 @@ class _RoleCard extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
-            BoxShadow(color: color.withOpacity(0.12), blurRadius: 16, offset: const Offset(0, 6))
+            BoxShadow(
+                color: color.withOpacity(0.12),
+                blurRadius: 16,
+                offset: const Offset(0, 6))
           ],
           border: Border.all(color: color.withOpacity(0.15)),
         ),
@@ -110,7 +116,10 @@ class _RoleCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(title,
-                      style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: color)),
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
+                          color: color)),
                   const SizedBox(height: 4),
                   Text(subtitle, style: Theme.of(context).textTheme.bodyMedium),
                 ],

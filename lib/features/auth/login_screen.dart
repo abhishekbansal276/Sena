@@ -23,41 +23,49 @@ class _LoginScreenState extends State<LoginScreen> {
 
   String get _roleLabel {
     switch (widget.role) {
-      case UserRole.worker: return 'Worker';
-      case UserRole.contractor: return 'Contractor';
-      case UserRole.company: return 'Company';
+      case UserRole.worker:
+        return 'Worker';
+      case UserRole.contractor:
+        return 'Contractor';
+      case UserRole.company:
+        return 'Company';
     }
   }
 
   Color get _roleColor {
     switch (widget.role) {
-      case UserRole.worker: return const Color(0xFF10B981);
-      case UserRole.contractor: return const Color(0xFF8B5CF6);
-      case UserRole.company: return AppTheme.primary;
+      case UserRole.worker:
+        return const Color(0xFF10B981);
+      case UserRole.contractor:
+        return const Color(0xFF8B5CF6);
+      case UserRole.company:
+        return AppTheme.primary;
+    }
+  }
+
+  void _goToDashboard() {
+    FocusScope.of(context).unfocus();
+    switch (widget.role) {
+      case UserRole.company:
+        context.go('/company/dashboard');
+        break;
+      case UserRole.contractor:
+        context.go('/contractor/dashboard');
+        break;
+      case UserRole.worker:
+        context.go('/worker/dashboard');
+        break;
     }
   }
 
   void _login() async {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _loading = true);
+    final auth = context.read<AuthProvider>();
     await Future.delayed(const Duration(milliseconds: 800));
     if (!mounted) return;
-
-    final auth = context.read<AuthProvider>();
-    switch (widget.role) {
-      case UserRole.worker:
-        auth.demoLogin(UserRole.worker);
-        context.go('/worker/dashboard');
-        break;
-      case UserRole.contractor:
-        auth.demoLogin(UserRole.contractor);
-        context.go('/contractor/dashboard');
-        break;
-      case UserRole.company:
-        auth.demoLogin(UserRole.company);
-        context.go('/company/dashboard');
-        break;
-    }
+    auth.demoLogin(widget.role);
+    _goToDashboard();
   }
 
   @override
@@ -94,15 +102,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                Text('Sign In as', style: Theme.of(context).textTheme.bodyMedium),
-                Text(_roleLabel, style: Theme.of(context).textTheme.displaySmall?.copyWith(color: _roleColor)),
+                Text('Sign In as',
+                    style: Theme.of(context).textTheme.bodyMedium),
+                Text(_roleLabel,
+                    style: Theme.of(context)
+                        .textTheme
+                        .displaySmall
+                        ?.copyWith(color: _roleColor)),
                 const SizedBox(height: 32),
                 AppTextField(
                   label: 'Email Address',
                   controller: _emailCtrl,
                   keyboardType: TextInputType.emailAddress,
                   prefixIcon: const Icon(Icons.email_outlined),
-                  validator: (v) => v == null || v.isEmpty ? 'Enter your email' : null,
+                  validator: (v) =>
+                      v == null || v.isEmpty ? 'Enter your email' : null,
                 ),
                 const SizedBox(height: 16),
                 AppTextField(
@@ -111,10 +125,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: _obscure,
                   prefixIcon: const Icon(Icons.lock_outline),
                   suffixIcon: IconButton(
-                    icon: Icon(_obscure ? Icons.visibility_off_outlined : Icons.visibility_outlined),
+                    icon: Icon(_obscure
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined),
                     onPressed: () => setState(() => _obscure = !_obscure),
                   ),
-                  validator: (v) => v == null || v.length < 6 ? 'Minimum 6 characters' : null,
+                  validator: (v) =>
+                      v == null || v.length < 6 ? 'Minimum 6 characters' : null,
                 ),
                 const SizedBox(height: 8),
                 Align(
@@ -134,9 +151,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     GestureDetector(
                       onTap: () {
                         switch (widget.role) {
-                          case UserRole.worker: context.go('/register/worker');
-                          case UserRole.contractor: context.go('/register/contractor');
-                          case UserRole.company: context.go('/register/company');
+                          case UserRole.worker:
+                            context.go('/register/worker');
+                          case UserRole.contractor:
+                            context.go('/register/contractor');
+                          case UserRole.company:
+                            context.go('/register/company');
                         }
                       },
                       child: Text('Register',
@@ -159,7 +179,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Demo Login', style: TextStyle(fontWeight: FontWeight.w700, color: _roleColor)),
+                      Text('Demo Login',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700, color: _roleColor)),
                       const SizedBox(height: 4),
                       Text('Skip login and explore the app as $_roleLabel',
                           style: Theme.of(context).textTheme.bodyMedium),
@@ -168,13 +190,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         label: 'Continue as $_roleLabel (Demo)',
                         style: AppButtonStyle.secondary,
                         onTap: () {
-                          final auth = context.read<AuthProvider>();
-                          auth.demoLogin(widget.role);
-                          switch (widget.role) {
-                            case UserRole.worker: context.go('/worker/dashboard');
-                            case UserRole.contractor: context.go('/contractor/dashboard');
-                            case UserRole.company: context.go('/company/dashboard');
-                          }
+                          context.read<AuthProvider>().demoLogin(widget.role);
+                          _goToDashboard();
                         },
                       ),
                     ],

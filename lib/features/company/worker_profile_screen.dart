@@ -23,20 +23,27 @@ class WorkerProfileScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-                const Color(0xFF10B981),
-                const Color(0xFF059669),
+              gradient: const LinearGradient(colors: [
+                Color(0xFF10B981),
+                Color(0xFF059669),
               ]),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Column(children: [
               UserAvatar(name: worker.fullName, radius: 44),
               const SizedBox(height: 12),
-              Text(worker.fullName, style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w800)),
+              Text(worker.fullName,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800)),
               const SizedBox(height: 4),
-              Text('Age: ${worker.age}', style: const TextStyle(color: Colors.white70)),
+              Text('Age: ${worker.age}',
+                  style: const TextStyle(color: Colors.white70)),
               const SizedBox(height: 12),
-              StatusChip(label: avail ? '✅ Available' : '🔴 Busy', color: avail ? Colors.white : Colors.redAccent),
+              StatusChip(
+                  label: avail ? '✅ Available' : '🔴 Busy',
+                  color: avail ? Colors.white : Colors.redAccent),
             ]),
           ),
           const SizedBox(height: 20),
@@ -44,21 +51,33 @@ class WorkerProfileScreen extends StatelessWidget {
           Card(
             child: Padding(
               padding: const EdgeInsets.all(16),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('Skills & Experience', style: Theme.of(context).textTheme.headlineSmall),
-                const SizedBox(height: 10),
-                Wrap(spacing: 8, runSpacing: 8, children: worker.skills.map((s) =>
-                  Chip(label: Text(s), backgroundColor: const Color(0xFF10B981).withOpacity(0.1))
-                ).toList()),
-                if (worker.yearsOfExperience != null) ...[
-                  const SizedBox(height: 10),
-                  Row(children: [
-                    const Icon(Icons.work_history_outlined, size: 16, color: AppTheme.textSecondary),
-                    const SizedBox(width: 6),
-                    Text('${worker.yearsOfExperience} year(s) of experience', style: Theme.of(context).textTheme.bodyMedium),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Skills & Experience',
+                        style: Theme.of(context).textTheme.headlineSmall),
+                    const SizedBox(height: 10),
+                    Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: worker.skills
+                            .map((s) => Chip(
+                                label: Text(s),
+                                backgroundColor:
+                                    const Color(0xFF10B981).withOpacity(0.1)))
+                            .toList()),
+                    if (worker.yearsOfExperience != null) ...[
+                      const SizedBox(height: 10),
+                      Row(children: [
+                        const Icon(Icons.work_history_outlined,
+                            size: 16, color: AppTheme.textSecondary),
+                        const SizedBox(width: 6),
+                        Text(
+                            '${worker.yearsOfExperience} year(s) of experience',
+                            style: Theme.of(context).textTheme.bodyMedium),
+                      ]),
+                    ],
                   ]),
-                ],
-              ]),
             ),
           ),
           const SizedBox(height: 12),
@@ -67,7 +86,8 @@ class WorkerProfileScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(children: [
-                _Row(Icons.location_on_outlined, '${worker.city}, ${worker.state}'),
+                _Row(Icons.location_on_outlined,
+                    '${worker.city}, ${worker.state}'),
                 _Row(Icons.phone_outlined, worker.phone),
                 _Row(Icons.email_outlined, worker.email),
                 if (worker.languages.isNotEmpty)
@@ -99,7 +119,8 @@ class _Row extends StatelessWidget {
       child: Row(children: [
         Icon(icon, color: const Color(0xFF10B981), size: 18),
         const SizedBox(width: 10),
-        Expanded(child: Text(text, style: Theme.of(context).textTheme.bodyLarge)),
+        Expanded(
+            child: Text(text, style: Theme.of(context).textTheme.bodyLarge)),
       ]),
     );
   }

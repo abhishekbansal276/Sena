@@ -10,7 +10,8 @@ class CompanyRegistrationScreen extends StatefulWidget {
   const CompanyRegistrationScreen({super.key});
 
   @override
-  State<CompanyRegistrationScreen> createState() => _CompanyRegistrationScreenState();
+  State<CompanyRegistrationScreen> createState() =>
+      _CompanyRegistrationScreenState();
 }
 
 class _CompanyRegistrationScreenState extends State<CompanyRegistrationScreen> {
@@ -27,8 +28,13 @@ class _CompanyRegistrationScreenState extends State<CompanyRegistrationScreen> {
   bool _loading = false;
 
   static const _industries = [
-    'Construction', 'Facility Management', 'Manufacturing',
-    'Logistics', 'Agriculture', 'Hospitality', 'Other',
+    'Construction',
+    'Facility Management',
+    'Manufacturing',
+    'Logistics',
+    'Agriculture',
+    'Hospitality',
+    'Other',
   ];
 
   void _submit() async {
@@ -82,9 +88,11 @@ class _CompanyRegistrationScreenState extends State<CompanyRegistrationScreen> {
             ),
             const SizedBox(height: 12),
             DropdownButtonFormField<String>(
-              value: _industryType,
+              initialValue: _industryType,
               decoration: const InputDecoration(labelText: 'Industry Type'),
-              items: _industries.map((i) => DropdownMenuItem(value: i, child: Text(i))).toList(),
+              items: _industries
+                  .map((i) => DropdownMenuItem(value: i, child: Text(i)))
+                  .toList(),
               onChanged: (v) => setState(() => _industryType = v),
             ),
             const SizedBox(height: 20),
@@ -117,7 +125,8 @@ class _CompanyRegistrationScreenState extends State<CompanyRegistrationScreen> {
               controller: _phoneCtrl,
               keyboardType: TextInputType.phone,
               prefixIcon: const Icon(Icons.phone_outlined),
-              validator: (v) => v == null || v.length < 10 ? 'Enter valid phone' : null,
+              validator: (v) =>
+                  v == null || v.length < 10 ? 'Enter valid phone' : null,
             ),
             const SizedBox(height: 32),
             AppButton(
@@ -143,8 +152,11 @@ class _CompanyRegistrationScreenState extends State<CompanyRegistrationScreen> {
   }
 
   Widget _section(String title) => Padding(
-    padding: const EdgeInsets.only(bottom: 12),
-    child: Text(title,
-        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: AppTheme.primary)),
-  );
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Text(title,
+            style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                color: AppTheme.primary)),
+      );
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/models/models.dart';
@@ -13,13 +12,17 @@ class IncomingRequestsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final contractor = context.watch<AuthProvider>().currentContractor;
-    if (contractor == null) return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    final requests = context.watch<RequestProvider>().requestsForContractor(contractor.id);
+    if (contractor == null)
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    final requests =
+        context.watch<RequestProvider>().requestsForContractor(contractor.id);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Incoming Requests')),
       body: requests.isEmpty
-          ? const EmptyState(message: 'No hiring requests received yet', icon: Icons.inbox_outlined)
+          ? const EmptyState(
+              message: 'No hiring requests received yet',
+              icon: Icons.inbox_outlined)
           : ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: requests.length,
@@ -42,9 +45,17 @@ class _RequestCard extends StatelessWidget {
     Color statusColor;
     String statusLabel;
     switch (request.status) {
-      case RequestStatus.accepted: statusColor = AppTheme.success; statusLabel = 'Accepted'; break;
-      case RequestStatus.rejected: statusColor = AppTheme.error; statusLabel = 'Rejected'; break;
-      default: statusColor = AppTheme.warning; statusLabel = 'Pending';
+      case RequestStatus.accepted:
+        statusColor = AppTheme.success;
+        statusLabel = 'Accepted';
+        break;
+      case RequestStatus.rejected:
+        statusColor = AppTheme.error;
+        statusLabel = 'Rejected';
+        break;
+      default:
+        statusColor = AppTheme.warning;
+        statusLabel = 'Pending';
     }
 
     return Card(
@@ -53,23 +64,29 @@ class _RequestCard extends StatelessWidget {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
             Expanded(
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(request.companyName, style: Theme.of(context).textTheme.headlineMedium),
-                Text('${request.workersRequired} ${request.skillRequired}(s) needed',
-                    style: Theme.of(context).textTheme.bodyMedium),
-              ]),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(request.companyName,
+                        style: Theme.of(context).textTheme.headlineMedium),
+                    Text(
+                        '${request.workersRequired} ${request.skillRequired}(s) needed',
+                        style: Theme.of(context).textTheme.bodyMedium),
+                  ]),
             ),
             StatusChip(label: statusLabel, color: statusColor),
           ]),
           const Divider(height: 20),
           Wrap(spacing: 16, runSpacing: 8, children: [
-            _Info(Icons.currency_rupee, '₹${request.offeredWage.toInt()}/day offered'),
+            _Info(Icons.currency_rupee,
+                '₹${request.offeredWage.toInt()}/day offered'),
             _Info(Icons.timer_outlined, request.duration.name.toUpperCase()),
             _Info(Icons.location_on_outlined, request.workLocation),
           ]),
           if (request.additionalRequirements != null) ...[
             const SizedBox(height: 8),
-            Text('Note: ${request.additionalRequirements}', style: Theme.of(context).textTheme.bodyMedium),
+            Text('Note: ${request.additionalRequirements}',
+                style: Theme.of(context).textTheme.bodyMedium),
           ],
           if (isPending) ...[
             const SizedBox(height: 14),
@@ -80,9 +97,12 @@ class _RequestCard extends StatelessWidget {
                   style: AppButtonStyle.accent,
                   icon: Icons.check_rounded,
                   onTap: () {
-                    reqProv.updateRequestStatus(request.id, RequestStatus.accepted);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('✅ Request accepted! Email confirmation sent.'), backgroundColor: AppTheme.success));
+                    reqProv.updateRequestStatus(
+                        request.id, RequestStatus.accepted);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text(
+                            '✅ Request accepted! Email confirmation sent.'),
+                        backgroundColor: AppTheme.success));
                   },
                 ),
               ),
@@ -93,9 +113,11 @@ class _RequestCard extends StatelessWidget {
                   style: AppButtonStyle.danger,
                   icon: Icons.close_rounded,
                   onTap: () {
-                    reqProv.updateRequestStatus(request.id, RequestStatus.rejected);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Request rejected.'), backgroundColor: AppTheme.error));
+                    reqProv.updateRequestStatus(
+                        request.id, RequestStatus.rejected);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Request rejected.'),
+                        backgroundColor: AppTheme.error));
                   },
                 ),
               ),
