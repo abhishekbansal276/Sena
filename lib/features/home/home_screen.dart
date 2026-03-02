@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                   children: [
                   Text(
                     'Choose your role',
                     style: Theme.of(context).textTheme.headlineMedium,
