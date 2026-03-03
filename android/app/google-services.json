@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "189427299237",
+    "project_id": "sena-ab01d",
+    "storage_bucket": "sena-ab01d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:189427299237:android:80fe7fbda461b4a24a6e4c",
+        "android_client_info": {
+          "package_name": "com.example.sena"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "189427299237-4pafvsbbqg7f69ljtr8adst7fjsoakrm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sena",
+            "certificate_hash": "832a17abc2eb088b0c8887b9560280a692eab985"
+          }
+        },
+        {
+          "client_id": "189427299237-luen6hrfoghd6e2s3ur18nf4m943mo74.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sena",
+            "certificate_hash": "832a17abc2eb8ee75c9f8bd030a692eab9852b65"
+          }
+        },
+        {
+          "client_id": "189427299237-adneboaohma5lb0l9oqi3pd2derq59b2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCITBPqfjyiB32D9dLUaygSH-Rib-iIO6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "189427299237-adneboaohma5lb0l9oqi3pd2derq59b2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "189427299237-omb73u36r82hkiq447ntdjcccl0felvi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sena"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
