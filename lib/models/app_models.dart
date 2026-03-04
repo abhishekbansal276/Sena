@@ -1,4 +1,10 @@
-enum UserRole { individual, contractor, companyAdmin, companyHR, companySecurity }
+enum UserRole {
+  individual,
+  contractor,
+  companyAdmin,
+  companyHR,
+  companySecurity,
+}
 
 class AppUser {
   final String id;
@@ -20,6 +26,8 @@ class Worker extends AppUser {
   final List<String> skills;
   final String bio;
   final bool isAvailable;
+  final String location;
+  final String experience;
   final List<String> connectedContractorIds;
 
   Worker({
@@ -29,6 +37,8 @@ class Worker extends AppUser {
     this.skills = const [],
     this.bio = '',
     this.isAvailable = true,
+    this.location = 'Not specified',
+    this.experience = '0 years',
     this.connectedContractorIds = const [],
     super.profileImageUrl,
   }) : super(role: UserRole.individual);
@@ -39,6 +49,7 @@ class Contractor extends AppUser {
   final List<String> servicesProvided;
   final List<String> linkedWorkerIds;
   final String description;
+  final double rating;
 
   Contractor({
     required super.id,
@@ -48,6 +59,7 @@ class Contractor extends AppUser {
     this.servicesProvided = const [],
     this.linkedWorkerIds = const [],
     this.description = '',
+    this.rating = 4.5,
     super.profileImageUrl,
   }) : super(role: UserRole.contractor);
 }
@@ -110,5 +122,103 @@ class ProjectContract {
     required this.startDate,
     this.endDate,
     this.isOngoing = true,
+  });
+}
+
+// ── New Models ─────────────────────────────────────────────────────────────────
+
+enum JobCategory {
+  electrical,
+  plumbing,
+  hvac,
+  construction,
+  security,
+  cleaning,
+  general,
+}
+
+enum ApplicationStatus { applied, shortlisted, accepted, rejected }
+
+class JobListing {
+  final String id;
+  final String postedById; // contractor or company id
+  final String postedByName;
+  final String postedByType; // 'Contractor' | 'Company'
+  final String title;
+  final String description;
+  final List<String> requiredSkills;
+  final String location;
+  final String duration;
+  final String wage;
+  final JobCategory category;
+  final DateTime postedAt;
+
+  JobListing({
+    required this.id,
+    required this.postedById,
+    required this.postedByName,
+    required this.postedByType,
+    required this.title,
+    required this.description,
+    required this.requiredSkills,
+    required this.location,
+    required this.duration,
+    required this.wage,
+    required this.category,
+    required this.postedAt,
+  });
+}
+
+class JobApplication {
+  final String id;
+  final String jobId;
+  final String workerId;
+  ApplicationStatus status;
+
+  JobApplication({
+    required this.id,
+    required this.jobId,
+    required this.workerId,
+    this.status = ApplicationStatus.applied,
+  });
+}
+
+class WorkforceRequest {
+  final String id;
+  final String companyId;
+  final String companyName;
+  final String? assignedContractorId;
+  final List<String> requiredSkills;
+  final int workerCount;
+  final String duration;
+  final String budget;
+  final String location;
+  RequestStatus status;
+
+  WorkforceRequest({
+    required this.id,
+    required this.companyId,
+    required this.companyName,
+    this.assignedContractorId,
+    required this.requiredSkills,
+    required this.workerCount,
+    required this.duration,
+    required this.budget,
+    required this.location,
+    this.status = RequestStatus.pending,
+  });
+}
+
+class WorkerAllocation {
+  final String workerId;
+  final String workerName;
+  final String? assignedRequestId;
+  bool isAssigned;
+
+  WorkerAllocation({
+    required this.workerId,
+    required this.workerName,
+    this.assignedRequestId,
+    this.isAssigned = false,
   });
 }

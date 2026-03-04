@@ -15,9 +15,7 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     ChangeNotifierProvider(
       create: (_) => AuthProvider(),
@@ -45,14 +43,31 @@ class _SenaAppState extends State<SenaApp> {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: AppTheme.darkTheme,
-            home: const Scaffold(
-              body: Center(
+            home: Container(
+              color: Colors.white,
+              child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.hub_rounded, size: 80, color: AppTheme.primaryColor),
-                    SizedBox(height: 24),
-                    CircularProgressIndicator(),
+                    Container(
+                      width: 88,
+                      height: 88,
+                      decoration: BoxDecoration(
+                        gradient: AppTheme.primaryGradient,
+                        shape: BoxShape.circle,
+                        boxShadow: AppTheme.glowShadow,
+                      ),
+                      child: const Icon(
+                        Icons.hub_rounded,
+                        size: 48,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+                    const CircularProgressIndicator(
+                      color: AppTheme.primaryColor,
+                      strokeWidth: 2,
+                    ),
                   ],
                 ),
               ),
@@ -65,23 +80,29 @@ class _SenaAppState extends State<SenaApp> {
           refreshListenable: authProvider,
           redirect: (context, state) {
             final auth = context.read<AuthProvider>();
-            final bool loggingIn = state.matchedLocation == '/auth' || state.matchedLocation == '/';
-            
-            debugPrint('GoRouter Redirect: location=${state.matchedLocation}, user=${auth.currentUser?.email}, role=${auth.currentUser?.role}');
+            final bool loggingIn =
+                state.matchedLocation == '/auth' ||
+                state.matchedLocation == '/';
+
+            debugPrint(
+              'GoRouter Redirect: location=${state.matchedLocation}, user=${auth.currentUser?.email}, role=${auth.currentUser?.role}',
+            );
 
             if (auth.currentUser == null) {
               debugPrint('GoRouter: No user, allowing landing/auth access');
               return loggingIn ? null : '/';
             }
-            
+
             if (loggingIn) {
               final role = auth.currentUser!.role;
-              debugPrint('GoRouter: Logged in user at root/auth, redirecting to dashboard for role=$role');
+              debugPrint(
+                'GoRouter: Logged in user at root/auth, redirecting to dashboard for role=$role',
+              );
               if (role == UserRole.individual) return '/worker-dashboard';
               if (role == UserRole.contractor) return '/contractor-dashboard';
               return '/company-dashboard';
             }
-            
+
             return null;
           },
           routes: [
@@ -92,7 +113,8 @@ class _SenaAppState extends State<SenaApp> {
             GoRoute(
               path: '/auth',
               builder: (context, state) {
-                final roleString = state.uri.queryParameters['role'] ?? 'individual';
+                final roleString =
+                    state.uri.queryParameters['role'] ?? 'individual';
                 UserRole role;
                 if (roleString == 'contractor') {
                   role = UserRole.contractor;
